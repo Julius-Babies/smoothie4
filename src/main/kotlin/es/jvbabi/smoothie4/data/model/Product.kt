@@ -1,17 +1,20 @@
 package es.jvbabi.smoothie4.data.model
 
+import es.jvbabi.smoothie4.data.serializer.ProductSerializer
+import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.dao.Entity
 import org.jetbrains.exposed.dao.EntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.ReferenceOption
 
+@Serializable(with = ProductSerializer::class)
 class Product(id: EntityID<Int>) : Entity<Int>(id) {
     companion object : EntityClass<Int, Product>(Products)
 
-    val name by Products.name
-    val price by Products.price
-    val ingredients by Ingredient via ProductIngredients
+    var name by Products.name
+    var price by Products.price
+    var ingredients by Ingredient via ProductIngredients
 }
 
 object ProductIngredients : IntIdTable("product_ingredients") {
